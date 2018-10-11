@@ -1,0 +1,18 @@
+version: '3.1'
+services:
+  letsencrypt-apache:
+    container_name: 'letsencrypt-apache'
+    image: httpd:latest
+    ports:
+      - "80:80"
+    volumes:
+      - ./httpd.conf:/usr/local/apache2/conf/httpd.conf
+      - ./site:/usr/local/apache2/htdocs
+    networks:
+      - docker-network
+
+networks:
+  docker-network:
+    driver: bridge
+
+

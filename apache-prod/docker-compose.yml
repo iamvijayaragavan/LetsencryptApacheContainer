@@ -1,0 +1,22 @@
+version: '3.1'
+services:
+  prod-apache:
+    image: httpd:latest
+    container_name: prod_apache
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./httpd.conf:/usr/local/apache2/httpd.conf
+      - ./httpd.conf:/usr/local/apache2/conf/httpd.conf  
+      - ./httpd-ssl.conf:/usr/local/apache2/conf/extra/httpd-ssl.conf
+      - ./site:/usr/local/apache2/htdocs/
+      - ./../apache-temp/dc-vol/letsencrypt/etc/live/change_domain/fullchain.pem:/etc/ssl/fullchain.pem
+      - ./../apache-temp/dc-vol/letsencrypt/etc/live/change_domain/privkey.pem:/etc/ssl/privatekey.pem
+    networks:
+      - docker-network
+
+networks:
+  docker-network:
+    driver: bridge 
+
